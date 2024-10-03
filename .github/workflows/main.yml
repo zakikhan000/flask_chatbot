@@ -21,26 +21,30 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: '3.x'  # You can specify a Python version
+        python-version: '3.x'
 
-    # Step 3: Install dependencies
+    # Step 3: List repository files for debugging
+    - name: List files in the repository
+      run: ls -R  # This will list all files and directories recursively
+
+    # Step 4: Install dependencies
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r flask_chatbot/requirements.txt
+        pip install -r requirements.txt  # Update if necessary
 
-    # Step 4: Download SpaCy language model
+    # Step 5: Download SpaCy language model
     - name: Download SpaCy model
       run: |
         python -m spacy download en_core_web_sm
 
-    # Step 5: Run tests (optional)
+    # Step 6: Run tests (optional)
     - name: Run tests
       run: |
-        python -m unittest discover  # Assuming you have tests in your project
+        python -m unittest discover
 
-    # Step 6: Start Flask app (optional, for deployment or testing)
+    # Step 7: Start Flask app (optional, for deployment or testing)
     - name: Run Flask app
-      run: python app.py
+      run: python app.py  # Adjust the path to match your project structure
       env:
         FLASK_ENV: development
