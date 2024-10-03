@@ -33,6 +33,14 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt  # Update if necessary
 
+    - name: Check for requirements.txt
+      run: |
+        if [ ! -f flask_chatbot/requirements.txt ]; then
+        echo "requirements.txt not found!"
+        exit 1
+        fi
+
+
     # Step 5: Download SpaCy language model
     - name: Download SpaCy model
       run: |
