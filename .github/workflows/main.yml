@@ -21,38 +21,38 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: '3.x'
+        python-version: '3.10'  # Specify your desired Python version
 
-    # Step 3: List repository files for debugging
-    - name: List files in the repository
-      run: ls -R  # This will list all files and directories recursively
+    # Step 3: Create a virtual environment
+    - name: Create virtual environment
+      run: |
+        python -m venv venv  # Create virtual environment
+        source venv/bin/activate  # Activate the virtual environment
+        echo "##[add-path]$(pwd)/venv/bin"  # Add virtual environment to PATH for future steps
 
     # Step 4: Install dependencies
     - name: Install dependencies
       run: |
+        source venv/bin/activate  # Activate the virtual environment
         python -m pip install --upgrade pip
-        pip install -r requirements.txt  # Update if necessary
-
-    - name: Check for requirements.txt
-      run: |
-        if [ ! -f flask_chatbot/requirements.txt ]; then
-        echo "requirements.txt not found!"
-        exit 1
-        fi
-
+        pip install -r flask_chatbot/requirements.txt  # Adjust path if necessary
 
     # Step 5: Download SpaCy language model
     - name: Download SpaCy model
       run: |
+        source venv/bin/activate  # Activate the virtual environment
         python -m spacy download en_core_web_sm
 
     # Step 6: Run tests (optional)
     - name: Run tests
       run: |
-        python -m unittest discover
+        source venv/bin/activate  # Activate the virtual environment
+        python -m unittest discover  # Assuming you have tests in your project
 
     # Step 7: Start Flask app (optional, for deployment or testing)
     - name: Run Flask app
-      run: python app.py  # Adjust the path to match your project structure
+      run: |
+        source venv/bin/activate  # Activate the virtual environment
+        python app.py
       env:
         FLASK_ENV: development
